@@ -1,18 +1,6 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+import app from './src/app';
+const port = 3000;
 
-const app = express();
-app.use(bodyParser.json());
-
-const myLogger = function (req, res, next) {
-    console.log('LOGGED');
-    next();
-};
-
-app.use(myLogger);
-
-app.get('/', myLogger, function (req, res) {
-    res.send('Hello World!');
+app.listen(port, () => {
+    console.log(`app running on port ${port}`);
 });
-
-app.listen(3000);
