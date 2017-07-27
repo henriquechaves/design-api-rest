@@ -2,11 +2,10 @@
 
 Trata-se de um guia para o desenvolvimento de APIs REST
 
-
+Aqui utilizamos o padrão MVC com a diretório source e os demais diretórios dentro, como controllers, models e etc.
 
 A arquitetura de Microservices é uma abordagem que torna o desenvolvimento Web mais ágil e facilita a manutenção da bases de código.
 Vamos explorar as características que tornam containers uma escolha interessante, tanto para desenvolvimento e testes da aplicação como para redução de custos e sua administração, ao criar uma arquitetura baseada em microservices no AWS com Docker.
-
 ## MICROSERVICES
 
 + Micro-service APIs
