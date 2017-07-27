@@ -1,9 +1,13 @@
 describe('Routes: Products', () => {
+
+    // Armazena um array com um objeto referente a um produto com informações estáticas.
     const defaultProduct = {
         name: 'Default product',
         description: 'product description',
         price: 100
     };
+
+
     describe('GET /products', () => {
         it('should return a list of products', done => {
 
