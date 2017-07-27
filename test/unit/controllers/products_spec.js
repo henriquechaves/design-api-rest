@@ -1,35 +1,50 @@
 import ProductsController from '../../../src/controllers/products';
 import sinon from 'sinon';
+import Product from '../../../src/models/product';
 
-describe('Controllers: Products', () => {
-
-    // Armazena um array com um objeto referente a um produto com informações estáticas.
+describe('Constrollers: Products', () => {
     const defaultProduct = [{
         name: 'Default product',
         description: 'product description',
         price: 100
-    }]
-
+    }];
 
     describe('get() products', () => {
-        it('should return a list of products', () => {
-
-            // Fake da requisição da requisição enviada pela rota do express,
+        it('should call send with a list of products', () => {
             const request = {};
-
-            //é um objeto fake da resposta enviada pela rota do express
             const response = {
-                //spies permitem gravar informações como quantas vezes uma função foi chamada
                 send: sinon.spy()
             };
+            Product.find = sinon.stub();
 
-            const productsController = new ProductsController();
-            // chama o método get do controller passando os objetos request e response
-            productsController.get(request, response);
+            Product.find.withArgs({}).resolves(defaultProduct);
 
-            //verificar se o método get está chamando a função send com o defaultProduct como parâmetro
-            expect(response.send.called).to.be.true;
-            expect(response.send.calledWith(defaultProduct)).to.be.true;
+            const productsController = new ProductsController(Product);
+
+            return productsController.get(request, response)
+                .then(() => {
+                    sinon.assert.calledWith(response.send, defaultProduct);
+                });
+        });
+
+        it('should return 400 when an error occurs', () => {
+            const request = {};
+            const response = {
+                send: sinon.spy(),
+                status: sinon.stub()
+            };
+
+            response.status.withArgs(400).returns(response);
+            Product.find = sinon.stub();
+            Product.find.withArgs({}).rejects({ message: 'Error' });
+
+            const productsController = new ProductsController(Product);
+
+            return productsController.get(request, response)
+                .then(() => {
+                    sinon.assert.calledWith(response.send, 'Error');
+                });
         });
     });
 });
+
